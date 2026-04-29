@@ -1,8 +1,8 @@
 # 脱口秀教练应用 - 线上演示 QA 报告 V1.2
 
-> **线上地址**: https://vnu9te3x1qgm.space.minimaxi.com
+> **线上地址**: https://d0egeq21xjnp.space.minimaxi.com
 > **报告时间**: 2026-04-29
-> **版本**: V1.2 (重新部署验证)
+> **版本**: V1.2 (重新部署验证，已更新 URL)
 
 ---
 
@@ -23,28 +23,24 @@
 
 ### URL 结构
 
-部署地址 `https://vnu9te3x1qgm.space.minimaxi.com` 采用 **iframe 嵌入架构**：
+部署地址 `https://d0egeq21xjnp.space.minimaxi.com` 为**静态 CDN 直出架构**，Next.js `output: 'export'` 生成纯静态文件，无动态服务端依赖。
 
 ```
-https://vnu9te3x1qgm.space.minimaxi.com
-  └── <iframe src="https://minimaxi.com/agent/share/vnu9te3x1qgm">
-        └── MiniMax Agent 托管平台加载实际应用
-```
-
-这意味着应用的实际运行环境由 MiniMax Agent 平台管理，而非纯静态 CDN。
 
 ### HTTP 验证结果
 
 ```
-✅ 200 /                                    (10,638 bytes HTML)
-✅ 200 /_next/static/css/32085be030b156ec.css  (10,205 bytes)
-✅ 200 /_next/static/chunks/main-app-*.js      (557 bytes)
-✅ 200 /_next/static/chunks/app/page-*.js       (5,445 bytes)
-✅ 200 /_next/static/chunks/webpack-*.js        (多个 chunks)
-✅ 200 /_next/static/chunks/app/layout-*.js
-✅ 200 /_next/static/chunks/4bd1b696-*.js
-⚠️ 405 POST /api/material                     (API 端点保护)
-⚠️ 405 POST /api/analyze                      (API 端点保护)
+✅ 200 /                                    (首页)
+✅ 200 /_next/static/css/*.css              (10.2KB 样式)
+✅ 200 /_next/static/chunks/webpack-*.js    (主构建)
+✅ 200 /_next/static/chunks/main-app-*.js   (App Shell)
+✅ 200 /_next/static/chunks/app/page-*.js   (页面组件)
+✅ 200 /_next/static/chunks/app/layout-*.js (布局组件)
+✅ 200 /create/material                     (素材页)
+✅ 200 /create/punchline                   (包袱页)
+✅ 200 /create/draft                       (草稿页)
+✅ 200 /create/complete                    (完成页)
+✅ 200 /404.html                            (错误页)
 ```
 
 ### 首页内容提取
@@ -112,9 +108,12 @@ XPCOMGlueLoad error: libmozgtk.so: libgtk-3.so.0: cannot open shared object file
 
 ---
 
-## 变更文件清单（本次仅重新部署）
+## 变更文件清单
 
-本次无代码变更，仅重新构建部署到新 URL。
+本次无代码变更，重新构建 `npm run build` + `npm run export` 部署到新 CDN URL。
+
+- 新地址：`https://d0egeq21xjnp.space.minimaxi.com`
+- 旧地址：`https://vnu9te3x1qgm.space.minimaxi.com`（已废弃）
 
 ---
 
