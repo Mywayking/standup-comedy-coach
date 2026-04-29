@@ -24,7 +24,7 @@ export function PunchlineCard({ card, index }: PunchlineCardProps) {
     <div
       className={`card ${card.selected ? 'card-selected' : ''}`}
       style={{ marginBottom: 10, position: 'relative', cursor: 'pointer' }}
-      onClick={() => card.selected ? deselectPunchline(card.id) : selectPunchline(card.id)}
+      onClick={() => card.selected ? deselectCard(card.id) : selectCard(card.id)}
     >
       {/* Order number */}
       <div style={{
@@ -101,10 +101,10 @@ export function PunchlineCard({ card, index }: PunchlineCardProps) {
   )
 
   function selectPunchline(id: string) {
-    useCardStore.getState().selectCard(id, 'punchline')
+    useCardStore.getState().selectCard(id)
   }
 
   function deselectPunchline(id: string) {
-    useCardStore.getState().deselectCard(id, 'punchline')
+    useCardStore.getState().deselectCard(id)
   }
 }

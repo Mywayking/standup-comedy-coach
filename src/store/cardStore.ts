@@ -37,6 +37,26 @@ export const useCardStore = create<CardStoreState>()(
         cards: state.cards.filter(c => c.id !== id)
       })),
 
+      selectCard: (id) => set((state) => {
+        const card = state.cards.find(c => c.id === id)
+        if (!card) return state
+        return {
+          cards: state.cards.map(c => ({
+            ...c,
+            // premise/angle: single select within same stepType
+            // punchline: multi-select, don't deselect others
+            selected: c.id === id
+              ? true
+              : (card.stepType === 'punchline' ? c.selected : false)
+              || (c.stepType !== card.stepType ? c.selected : false),
+          }))
+        }
+      }),
+
+      deselectCard: (id) => set((state) => ({
+        cards: state.cards.map(c => c.id === id ? { ...c, selected: false } : c)
+      })),
+
       toggleSelect: (id) => set((state) => ({
         cards: state.cards.map(c => c.id === id ? { ...c, selected: !c.selected } : c)
       })),

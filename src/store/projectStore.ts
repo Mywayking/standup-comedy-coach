@@ -2,13 +2,14 @@
 'use client'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import type { Diagnosis } from '@/types'
 
 interface Project {
   id: string
   title: string | null
   status: 'in_progress' | 'completed'
   material: { content: string } | null
-  diagnosis: object | null
+  diagnosis: Diagnosis | null
   premiseId: string | null
   angleId: string | null
   selectedPunchlineIds: string[]
@@ -27,7 +28,7 @@ interface ProjectState {
   setStep: (step: string) => void
   setDraftMaterial: (material: { content: string } | null) => void
   updateMaterial: (material: { content: string }) => void
-  setDiagnosis: (diagnosis: object) => void
+  setDiagnosis: (diagnosis: Diagnosis | null) => void
   selectPremise: (id: string | null) => void
   selectAngle: (id: string | null) => void
   selectPunchline: (id: string) => void

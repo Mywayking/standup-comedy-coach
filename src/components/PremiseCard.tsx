@@ -13,7 +13,7 @@ export function PremiseCard({ card }: PremiseCardProps) {
   return (
     <div
       className={`card ${card.selected ? 'card-selected' : ''}`}
-      onClick={() => selectCard(card.id, 'premise')}
+      onClick={() => selectCard(card.id)}
       style={{ cursor: 'pointer', marginBottom: 12 }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>

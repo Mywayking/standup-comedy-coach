@@ -19,7 +19,7 @@ export function AngleCard({ card }: AngleCardProps) {
   return (
     <div
       className={`card ${card.selected ? 'card-selected' : ''}`}
-      onClick={() => selectCard(card.id, 'angle')}
+      onClick={() => selectCard(card.id)}
       style={{ cursor: 'pointer', marginBottom: 12, position: 'relative' }}
     >
       {/* Header */}

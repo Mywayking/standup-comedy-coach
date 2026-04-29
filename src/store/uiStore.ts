@@ -10,6 +10,10 @@ interface Toast {
   visible: boolean
 }
 
+interface UIError {
+  message: string
+}
+
 interface ConfirmDialog {
   visible: boolean
   title: string
@@ -20,6 +24,8 @@ interface ConfirmDialog {
 interface UIState {
   toast: Toast
   confirmDialog: ConfirmDialog
+  cancelConfirmVisible: boolean
+  error: UIError | null
   autoSaving: boolean
   lastSavedAt: string | null
   diagnosisStatus: string
@@ -31,16 +37,20 @@ interface UIState {
   hideToast: () => void
   showConfirm: (title: string, message: string, onConfirm: () => void) => void
   hideConfirm: () => void
+  showCancelConfirm: () => void
+  hideCancelConfirm: () => void
+  setError: (error: UIError | null) => void
   setStatus: (step: string, status: string) => void
   setAutoSaving: (value: boolean) => void
   setLastSavedAt: (time: string) => void
   resetAll: () => void
-  rehydrate: (state: Partial<UIState>) => void
 }
 
 export const useUIStore = create<UIState>()((set, get) => ({
   toast: { message: '', type: 'info', visible: false },
   confirmDialog: { visible: false, title: '', message: '', onConfirm: () => {} },
+  cancelConfirmVisible: false,
+  error: null,
   autoSaving: false,
   lastSavedAt: null,
   diagnosisStatus: 'idle',
@@ -66,6 +76,10 @@ export const useUIStore = create<UIState>()((set, get) => ({
     set({ confirmDialog: { visible: false, title: '', message: '', onConfirm: () => {} } })
   },
 
+  showCancelConfirm: () => set({ cancelConfirmVisible: true }),
+  hideCancelConfirm: () => set({ cancelConfirmVisible: false }),
+  setError: (error) => set({ error }),
+
   setStatus: (step, status) => {
     const key = `${step}Status` as keyof UIState
     set({ [key]: status } as any)
@@ -77,6 +91,8 @@ export const useUIStore = create<UIState>()((set, get) => ({
   resetAll: () => set({
     toast: { message: '', type: 'info', visible: false },
     confirmDialog: { visible: false, title: '', message: '', onConfirm: () => {} },
+    cancelConfirmVisible: false,
+    error: null,
     autoSaving: false,
     lastSavedAt: null,
     diagnosisStatus: 'idle',
@@ -85,6 +101,4 @@ export const useUIStore = create<UIState>()((set, get) => ({
     punchlineStatus: 'idle',
     draftStatus: 'idle',
   }),
-
-  rehydrate: (state) => set(state),
 }))
