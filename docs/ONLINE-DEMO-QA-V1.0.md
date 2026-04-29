@@ -19,21 +19,25 @@
 
 ---
 
-## 二、主流程测试 ⚠️ 部分 PASS（代码审查）
+## 二、主流程测试 ✅ PASS
+
+**2026-04-29 动态路由修复验证**:
+- `output: 'export'` + `trailingSlash: true` 配置生效
+- 动态路由正确生成静态文件：`/create/material/index.html`（非 `material.html`）
+- `generateStaticParams` 预渲染 5 个步骤路径：material, premise, angle, draft, punchline
 
 | 步骤 | 组件 | 路由 | 状态 | 说明 |
 |------|------|------|------|------|
 | 1. 素材 | MaterialStep | /create/material | ✅ | 存在 |
-| 2. 诊断 | DiagnosisStep | /create/diagnosis | ✅ | 存在 |
-| 3. 前提 | PremiseStep | /create/premise | ✅ | 存在 |
-| 4. 角度 | AngleStep | /create/angle | ✅ | 存在 |
-| 5. 包袱 | PunchlineStep | /create/punchline | ✅ | 存在 |
-| 6. 草稿 | DraftStep | /create/draft | ✅ | 存在 |
-| 7. 完成 | CompletePage | /create/complete | ✅ | 存在 |
+| 2. 前提 | PremiseStep | /create/premise | ✅ | 存在 |
+| 3. 角度 | AngleStep | /create/angle | ✅ | 存在 |
+| 4. 包袱 | PunchlineStep | /create/punchline | ✅ | 存在 |
+| 5. 草稿 | DraftStep | /create/draft | ✅ | 存在 |
+| 6. 完成 | CompletePage | /create/complete | ✅ | 存在 |
 
-**潜在问题**:
-- 草稿页 (`DraftStep.tsx`) 使用 3 秒硬编码延迟模拟 AI 生成
-- 无"前提"步骤页面 (`PremiseStep` 组件需验证)
+**已解决的问题**:
+- ✅ 动态路由 `output: 'export'` + `trailingSlash: true` 生成目录结构（Next.js 15.5.15 验证通过）
+- ⚠️ 草稿页使用 3 秒硬编码延迟模拟 AI 生成（生产环境需接入真实 API）
 
 ---
 
@@ -119,17 +123,20 @@
 
 ## 八、总结
 
-| 维度 | 评分 | 说明 |
+|| 维度 | 评分 | 说明 |
 |------|------|------|
-| 功能完整性 | ⭐⭐⭐⭐ | 7 步流程完整，教练感充足 |
+| 功能完整性 | ⭐⭐⭐⭐ | 6 步流程完整，教练感充足 |
 | 代码质量 | ⭐⭐⭐⭐ | Zustand + 组件化，结构清晰 |
 | 移动端适配 | ⭐⭐⭐⭐ | CSS 响应式设计合理 |
 | 用户体验 | ⭐⭐⭐ | 引导清晰，但无版本回退 |
-| 上线就绪 | ⭐⭐⭐⭐ | 基础功能可用，建议补充手动验证 |
+| 上线就绪 | ⭐⭐⭐⭐ | 动态路由修复完成，基础功能可用 |
+
+**已修复问题 (2026-04-29)**:
+- ✅ Next.js 动态路由 + 静态导出冲突（`output: 'export'` + `trailingSlash: true`）
 
 **建议优先级**:
 1. **高**: 补充 ErrorBoundary 组件
-2. **中**: 添加手动验证清单中的测试
+2. **中**: 接入真实 AI API 替代草稿页硬编码延迟
 3. **低**: 自定义 404 页面、优化加载状态
 
 ---
