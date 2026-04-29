@@ -14,7 +14,7 @@ export function PremiseCard({ card }: PremiseCardProps) {
     <div
       className={`card ${card.selected ? 'card-selected' : ''}`}
       onClick={() => selectCard(card.id)}
-      style={{ cursor: 'pointer', marginBottom: 12 }}
+      style={{ cursor: 'pointer', marginBottom: 12, position: 'relative' }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
         <div style={{ fontSize: 14, fontWeight: 600, flex: 1 }}>

@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useProjectStore } from '@/store/projectStore'
 import { useUIStore } from '@/store/uiStore'
@@ -8,7 +8,8 @@ import { WorkflowProgress } from '@/components/WorkflowProgress'
 import { DiagnosisCard } from '@/components/DiagnosisCard'
 import { LoadingState } from '@/components/LoadingState'
 import { mockDiagnosis } from '@/lib/mockData'
-import type { Diagnosis, Diagnosis as DiagnosisType } from '@/types'
+import { generateId } from '@/lib/utils'
+import type { Diagnosis } from '@/types'
 
 interface MaterialStepProps {
   onNext: () => void
@@ -22,7 +23,7 @@ export function MaterialStep({ onNext }: MaterialStepProps) {
   const [materialContent, setMaterialContent] = useState(
     currentProject?.material?.content || ''
   )
-  const [diagnosis, setDiagnosisLocal] = useState<DiagnosisType | null>(
+  const [diagnosis, setDiagnosisLocal] = useState<Diagnosis | null>(
     currentProject?.diagnosis || null
   )
   const [isGenerating, setIsGenerating] = useState(false)
@@ -40,11 +41,32 @@ export function MaterialStep({ onNext }: MaterialStepProps) {
     // Simulate AI call
     await new Promise(resolve => setTimeout(resolve, 2500))
 
+    // Create project if it doesn't exist yet
+    if (!currentProject) {
+      const newProject = {
+        id: generateId('proj'),
+        title: null,
+        status: 'in_progress' as const,
+        material: { content: materialContent.trim() },
+        diagnosis: null as Diagnosis | null,
+        premiseId: null,
+        angleId: null,
+        selectedPunchlineIds: [],
+        finalScript: null,
+        wordCountFinal: null,
+        durationFinal: null,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }
+      setProject(newProject)
+    } else {
+      updateMaterial({ content: materialContent.trim() })
+    }
+
     // Use mock diagnosis
     const result = mockDiagnosis
     setDiagnosisLocal(result)
     setDiagnosis(result)
-    updateMaterial({ content: materialContent.trim() })
     setShowDiagnosis(true)
     setStatus('diagnosis', 'saved')
     setIsGenerating(false)

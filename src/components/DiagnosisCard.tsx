@@ -8,7 +8,19 @@ interface DiagnosisCardProps {
 }
 
 export function DiagnosisCard({ diagnosis, collapsed }: DiagnosisCardProps) {
-  if (collapsed) return null
+  if (collapsed) {
+    return (
+      <div className="card" style={{ background: '#FFFBEB', borderColor: '#FDE68A' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 16 }}>🔍</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: '#92400E' }}>AI 诊断结果</span>
+          <span style={{ fontSize: 12, color: '#B45309', marginLeft: 'auto' }}>
+            喜剧潜力 {diagnosis.comedicPotential}/5 · {diagnosis.estimatedLength}
+          </span>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="card" style={{ background: '#FFFBEB', borderColor: '#FDE68A' }}>

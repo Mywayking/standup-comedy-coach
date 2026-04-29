@@ -99,12 +99,4 @@ export function PunchlineCard({ card, index }: PunchlineCardProps) {
       </div>
     </div>
   )
-
-  function selectPunchline(id: string) {
-    useCardStore.getState().selectCard(id)
-  }
-
-  function deselectPunchline(id: string) {
-    useCardStore.getState().deselectCard(id)
-  }
 }

@@ -34,7 +34,7 @@ export default function HomePage() {
           </Link>
         )}
 
-        <Link href="/projects" style={{ textDecoration: 'none' }}>
+        <Link href="/create/projects" style={{ textDecoration: 'none' }}>
           <button className="btn btn-secondary" style={{ height: 56, fontSize: 17 }}>
             📁 我的段子
           </button>

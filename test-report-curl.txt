@@ -1,0 +1,29 @@
+# 脱口秀教练应用 - 基础功能检测报告
+时间: 2026-04-29 17:55:41
+地址: https://vnu9te3x1qgm.space.minimaxi.com
+
+## 检测结果
+
+✅ [首页] HTTP 200 正常
+✅ [首页标题] 内容正常
+⚠️ [开始创作按钮] 需 JS 渲染
+✅ [create] HTTP 200 正常
+✅ [create/material] HTTP 200 正常
+✅ [create/premise] HTTP 200 正常
+✅ [create/angle] HTTP 200 正常
+✅ [create/punchline] HTTP 200 正常
+✅ [create/draft] HTTP 200 正常
+✅ [create/complete] HTTP 200 正常
+✅ [create/projects] HTTP 200 正常
+✅ [静态资源] HTTP 200 正常
+✅ [静态资源] HTTP 200 正常
+✅ [Next.js] 框架运行正常
+✅ [Hydration] 客户端渲染
+✅ [性能] 响应时间 65ms
+
+## 局限性说明
+
+- 仅检测 HTTP 响应，无法验证 JavaScript 功能
+- 无法测试用户交互流程
+- 无法验证 React 组件渲染
+- 建议：在具备完整依赖的环境中运行 Playwright 测试

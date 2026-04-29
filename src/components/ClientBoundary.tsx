@@ -2,17 +2,19 @@
 import { useState, useEffect, ReactNode } from 'react'
 import { useProjectStore } from '@/store/projectStore'
 import { useCardStore } from '@/store/cardStore'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 export function ClientBoundary({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false)
   const [rehydrated, setRehydrated] = useState(false)
 
   useEffect(() => {
-    // Rehydrate Zustand stores from localStorage
     const rehydrate = async () => {
       try {
-        useProjectStore.persist.rehydrate()
-        useCardStore.persist.rehydrate()
+        await Promise.all([
+          useProjectStore.persist.rehydrate(),
+          useCardStore.persist.rehydrate(),
+        ])
       } catch (e) {
         // Ignore errors
       }
@@ -34,7 +36,7 @@ export function ClientBoundary({ children }: { children: ReactNode }) {
         fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
         fontSize: 16,
         flexDirection: 'column',
-        gap: 16
+        gap: 16,
       }}>
         <div style={{ fontSize: 64 }}>🎤</div>
         <div style={{ fontSize: 18, fontWeight: 600, color: '#3F3F46' }}>手把手教你玩脱口秀</div>
@@ -43,5 +45,9 @@ export function ClientBoundary({ children }: { children: ReactNode }) {
     )
   }
 
-  return <>{children}</>
+  return (
+    <ErrorBoundary>
+      {children}
+    </ErrorBoundary>
+  )
 }
