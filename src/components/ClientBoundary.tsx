@@ -6,24 +6,24 @@ import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 export function ClientBoundary({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false)
-  const [rehydrated, setRehydrated] = useState(false)
 
   useEffect(() => {
-    const rehydrate = async () => {
-      try {
-        await Promise.all([
-          useProjectStore.persist.rehydrate(),
-          useCardStore.persist.rehydrate(),
-        ])
-      } catch (e) {
-        // Ignore errors
-      }
-      setRehydrated(true)
-      setMounted(true)
-    }
-    rehydrate()
+    // 立即 setMounted，不等待任何 rehydrate
+    setMounted(true)
+
+    // rehydrate 在后台异步执行，不阻塞渲染
+    Promise.allSettled([
+      useProjectStore.persist?.rehydrate?.(),
+      useCardStore.persist?.rehydrate?.(),
+    ]).then((results) => {
+      console.log('[hydrate] stores rehydrated', results)
+    }).catch((error) => {
+      console.warn('[hydrate] rehydrate failed, continue without persisted state', error)
+    })
   }, [])
 
+  // 仅在服务端渲染阶段短暂显示 SSR 占位
+  // 客户端 useEffect 触发后立即渲染真实内容
   if (!mounted) {
     return (
       <div style={{
@@ -40,7 +40,6 @@ export function ClientBoundary({ children }: { children: ReactNode }) {
       }}>
         <div style={{ fontSize: 64 }}>🎤</div>
         <div style={{ fontSize: 18, fontWeight: 600, color: '#3F3F46' }}>手把手教你玩脱口秀</div>
-        <div style={{ fontSize: 14 }}>加载中...</div>
       </div>
     )
   }

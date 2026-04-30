@@ -7,9 +7,11 @@ interface LoadingStateProps {
   step: WorkflowStep
   message?: string
   steps?: string[]
+  isFailed?: boolean
+  onRetry?: () => void
 }
 
-export function LoadingState({ step, message, steps }: LoadingStateProps) {
+export function LoadingState({ step, message, steps, isFailed, onRetry }: LoadingStateProps) {
   const defaultMessages: Record<WorkflowStep, string> = {
     material: '正在分析素材...',
     diagnosis: '正在诊断素材...',
@@ -20,6 +22,23 @@ export function LoadingState({ step, message, steps }: LoadingStateProps) {
   }
 
   const displayMessage = message || defaultMessages[step]
+
+  if (isFailed) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 24px', textAlign: 'center' }}>
+        <div style={{ fontSize: 48, marginBottom: 16 }}>😵</div>
+        <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8, color: '#DC2626' }}>生成失败</h3>
+        <p style={{ fontSize: 14, color: '#71717A', marginBottom: 24 }}>
+          生成超时，请检查网络后重试
+        </p>
+        {onRetry && (
+          <button className="btn btn-primary" onClick={onRetry}>
+            🔄 重新生成
+          </button>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 24px', textAlign: 'center' }}>
